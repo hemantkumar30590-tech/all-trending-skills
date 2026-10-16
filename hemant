@@ -1,0 +1,14 @@
+#!/bin/bash
+case "$1" in
+  list) ls -1 -d */ | sed 's/\///' ;;
+  install)
+    mkdir -p ~/.claude/skills
+    for d in */; do [ -f "$d/SKILL.md" ] || [ -f "$d/README.md" ] && cp -r "$d" ~/.claude/skills/ 2>/dev/null && echo "✅ $d"; done
+    echo "DONE! Restart Claude Code"
+    ;;
+  affiliate) cat affiliate-skills/SKILL.md 2>/dev/null | head -100 ;;
+  app) cat frontend-design/SKILL.md 2>/dev/null | head -100 ;;
+  clean) find . -name "node_modules" -type d -exec rm -rf {} + 2>/dev/null; du -sh . ;;
+  size) du -sh */ | sort -hr ;;
+  *) echo "🔥 Hemant CLI - 27 Skills"; echo "hemant list | install | affiliate | app | clean | size" ;;
+esac
